@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
 
-const LoginForm = () => {
+const LoginForm = ({ setAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,6 +26,8 @@ const LoginForm = () => {
 
       if (response.ok) {
         const data = await response.json();
+        localStorage.setItem("token", data.token);
+        setAuthenticated(true);
         console.log("Login successful:", data);
       } else {
         const errorData = await response.json();
@@ -62,9 +64,18 @@ const LoginForm = () => {
           value={formData.password}
           onChange={handleChange}
         />
-        <Button variant="contained" color="primary" type="submit" fullWidth>
-          Login
-        </Button>
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <Button variant="contained" color="primary" type="submit" fullWidth>
+            Login
+          </Button>
+          <Button variant="contained" color="primary" type="submit" fullWidth>
+            Sign Up
+          </Button>
+        </div>
       </form>
     </Container>
   );
