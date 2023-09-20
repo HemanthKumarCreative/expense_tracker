@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import SignupForm from "./components/SignupForm";
-import LoginForm from "./components/LoginForm";
-import ExpenseForm from "./components/ExpenseForm";
-// import ExpenseList from "./components/ExpenseList";
+import { CssBaseline, Container } from "@mui/material";
+import Login from "./components/LoginForm";
+import SignUp from "./components/SignupForm";
+import Expenses from "./components/Expenses";
 
-import { Container, Typography } from "@mui/material";
-
-function App() {
+const App = () => {
   const [authenticated, setAuthenticated] = useState(
     localStorage.getItem("token") ? true : false
   );
@@ -15,27 +13,22 @@ function App() {
     localStorage.removeItem("token");
     setAuthenticated(false);
   };
+
   return (
-    <Container>
-      {authenticated ? (
-        <>
-          <button onClick={handleLogout}>Logout</button>
-          <ExpenseForm />
-        </>
-      ) : (
-        <>
-          <Typography variant="h4" component="div" gutterBottom>
-            Signup Form
-          </Typography>
-          <SignupForm />
-          <Typography variant="h4" component="div" gutterBottom>
-            Login Form
-          </Typography>
-          <LoginForm />
-        </>
-      )}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div>
+        {authenticated ? (
+          <>
+            <button onClick={handleLogout}>Logout</button>
+            <Expenses />
+          </>
+        ) : (
+          <Login setAuthenticated={setAuthenticated} />
+        )}
+      </div>
     </Container>
   );
-}
+};
 
 export default App;
