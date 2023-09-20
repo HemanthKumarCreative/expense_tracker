@@ -9,8 +9,11 @@ function Expenses() {
   useEffect(() => {
     // Fetch expenses from the backend
     const fetchExpenses = async () => {
+      const expenseId = JSON.parse(localStorage.getItem("token")).id;
       try {
-        const response = await fetch("http://localhost:5000/api/expenses");
+        const response = await fetch(
+          `http://localhost:5000/api/expenses/${expenseId}`
+        );
         const data = await response.json();
         setExpenses(data);
       } catch (error) {
@@ -24,7 +27,11 @@ function Expenses() {
   return (
     <>
       <ExpenseForm expenses={expenses} setExpenses={setExpenses} />
-      <ExpenseList expenses={expenses} setExpenses={setExpenses} />
+      {expenses.length ? (
+        <ExpenseList expenses={expenses} setExpenses={setExpenses} />
+      ) : (
+        <></>
+      )}
     </>
   );
 }
