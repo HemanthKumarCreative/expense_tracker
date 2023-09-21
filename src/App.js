@@ -3,6 +3,7 @@ import { CssBaseline, Container } from "@mui/material";
 import Login from "./components/LoginForm";
 import SignUp from "./components/SignupForm";
 import Expenses from "./components/Expenses";
+import PaymentRequest from "./components/PaymentRequest";
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(
@@ -21,6 +22,7 @@ const App = () => {
         {authenticated ? (
           <>
             <button onClick={handleLogout}>Logout</button>
+            <PaymentRequest />
             <Expenses />
           </>
         ) : (
