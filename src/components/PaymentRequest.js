@@ -36,7 +36,7 @@ const PaymentRequest = () => {
         color="primary"
         onClick={handlePaymentRequest}
       >
-        Request Payment
+        Buy Premium
       </Button>
     </Container>
   );

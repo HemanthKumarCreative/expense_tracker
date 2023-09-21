@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CssBaseline, Container } from "@mui/material";
+import { CssBaseline, Container, Button, Box, Grid } from "@mui/material";
 import Login from "./components/LoginForm";
 import SignUp from "./components/SignupForm";
 import Expenses from "./components/Expenses";
@@ -18,17 +18,32 @@ const App = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div>
+      <Box mt={4}>
         {authenticated ? (
           <>
-            <button onClick={handleLogout}>Logout</button>
-            <PaymentRequest />
-            <Expenses />
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleLogout}
+                  fullWidth
+                >
+                  Logout
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <PaymentRequest />
+              </Grid>
+            </Grid>
+            <Box mt={2}>
+              <Expenses />
+            </Box>
           </>
         ) : (
           <Login setAuthenticated={setAuthenticated} />
         )}
-      </div>
+      </Box>
     </Container>
   );
 };

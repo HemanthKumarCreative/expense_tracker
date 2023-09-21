@@ -26,6 +26,7 @@ const LoginForm = ({ setAuthenticated }) => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data.user);
         localStorage.setItem("token", JSON.stringify(data.user));
         setAuthenticated(true);
         console.log("Login successful:", data);
