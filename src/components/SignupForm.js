@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Box, Container, Typography } from "@mui/material";
+import Cookies from "js-cookie"; // Import js-cookie
 
-const SignupForm = ({
-  setAuthenticated,
-  setIsLoginPage,
-  setIsPremiumUser,
-  setUserInfo,
-}) => {
+const SignupForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -32,10 +28,12 @@ const SignupForm = ({
 
       if (response.ok) {
         const data = await response.json();
-
+        console.log({ data });
+        Cookies.set("userInfo", JSON.stringify(data.user));
+        Cookies.set("token", JSON.stringify(data.token));
         setAuthenticated(true);
-        setIsPremiumUser(data.isPremiumUser);
-        setUserInfo(data);
+        setUserInfo(data.user);
+
         console.log("User created:", data);
       } else {
         console.error("Error:", response.statusText);
