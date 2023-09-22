@@ -4,11 +4,20 @@ import Login from "./components/LoginForm";
 import SignUp from "./components/SignupForm";
 import Expenses from "./components/Expenses";
 import PaymentRequest from "./components/PaymentRequest";
+const axios = require("axios");
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(
     localStorage.getItem("token") ? true : false
   );
+
+  const getPremiumStatus = () => {
+    const userId = JSON.parse(localStorage.getItem("token"))?.id;
+    console.log({ userId });
+  };
+
+  const [isPremiumUser, setIsPremiumUser] = useState(getPremiumStatus);
+  const [isLoginPage, setIsLoginPage] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -33,15 +42,27 @@ const App = () => {
                 </Button>
               </Grid>
               <Grid item xs={6}>
-                <PaymentRequest />
+                {!isPremiumUser && (
+                  <PaymentRequest setIsPremiumUser={setIsPremiumUser} />
+                )}
               </Grid>
             </Grid>
             <Box mt={2}>
               <Expenses />
             </Box>
           </>
+        ) : isLoginPage ? (
+          <Login
+            setAuthenticated={setAuthenticated}
+            setIsLoginPage={setIsLoginPage}
+            setIsPremiumUser={setIsPremiumUser}
+          />
         ) : (
-          <Login setAuthenticated={setAuthenticated} />
+          <SignUp
+            setAuthenticated={setAuthenticated}
+            setIsLoginPage={setIsLoginPage}
+            setIsPremiumUser={setIsPremiumUser}
+          />
         )}
       </Box>
     </Container>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Container, Typography } from "@mui/material";
 
-const SignupForm = () => {
+const SignupForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,6 +27,12 @@ const SignupForm = () => {
 
       if (response.ok) {
         const data = await response.json();
+
+        localStorage.setItem("token", JSON.stringify(data));
+        setAuthenticated(true);
+        setIsPremiumUser(
+          JSON.parse(localStorage.getItem("token")).isPremiumUser
+        );
         console.log("User created:", data);
       } else {
         console.error("Error:", response.statusText);
@@ -36,39 +42,63 @@ const SignupForm = () => {
     }
   };
 
+  const handlePageSwitch = () => {
+    setIsLoginPage(true);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Box sx={{ "& > :not(style)": { m: 1, width: "25ch" } }}>
-        <TextField
-          id="name"
-          label="Name"
-          variant="outlined"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-        <TextField
-          id="email"
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <Button variant="contained" type="submit">
-          Sign Up
-        </Button>
-      </Box>
-    </form>
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Sign Up
+      </Typography>
+      <form onSubmit={handleSubmit}>
+        <Box sx={{ "& > :not(style)": { m: 1, width: "40ch" } }}>
+          <TextField
+            id="name"
+            label="Name"
+            variant="outlined"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+          <TextField
+            id="email"
+            label="Email"
+            variant="outlined"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handlePageSwitch}
+            >
+              Login
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Sign Up
+            </Button>
+          </div>
+        </Box>
+      </form>
+    </Container>
   );
 };
 

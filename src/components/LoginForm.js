@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
 
-const LoginForm = ({ setAuthenticated }) => {
+const LoginForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,6 +29,9 @@ const LoginForm = ({ setAuthenticated }) => {
         console.log(data.user);
         localStorage.setItem("token", JSON.stringify(data.user));
         setAuthenticated(true);
+        setIsPremiumUser(
+          JSON.parse(localStorage.getItem("token"))?.isPremiumUser
+        );
         console.log("Login successful:", data);
       } else {
         const errorData = await response.json();
@@ -37,6 +40,10 @@ const LoginForm = ({ setAuthenticated }) => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handlePageSwitch = () => {
+    setIsLoginPage(false);
   };
 
   return (
@@ -68,12 +75,18 @@ const LoginForm = ({ setAuthenticated }) => {
         <div
           style={{
             display: "flex",
+            justifyContent: "space-between",
           }}
         >
-          <Button variant="contained" color="primary" type="submit" fullWidth>
+          <Button variant="contained" color="primary" type="submit">
             Login
           </Button>
-          <Button variant="contained" color="primary" type="submit" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            onClick={handlePageSwitch}
+          >
             Sign Up
           </Button>
         </div>
