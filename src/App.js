@@ -1,26 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CssBaseline, Container, Button, Box, Grid } from "@mui/material";
 import Login from "./components/LoginForm";
 import SignUp from "./components/SignupForm";
 import Expenses from "./components/Expenses";
 import PaymentRequest from "./components/PaymentRequest";
-const axios = require("axios");
+import Cookies from "js-cookie"; // Import js-cookie
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(
-    localStorage.getItem("token") ? true : false
+    Cookies.get("token") ? true : false
   );
 
-  const getPremiumStatus = () => {
-    const userId = JSON.parse(localStorage.getItem("token"))?.id;
-    console.log({ userId });
-  };
-
-  const [isPremiumUser, setIsPremiumUser] = useState(getPremiumStatus);
   const [isLoginPage, setIsLoginPage] = useState(true);
+  const [userInfo, setUserInfo] = useState({});
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    Cookies.remove("token");
+    Cookies.remove("userInfo");
     setAuthenticated(false);
   };
 
@@ -42,26 +38,25 @@ const App = () => {
                 </Button>
               </Grid>
               <Grid item xs={6}>
-                {!isPremiumUser && (
-                  <PaymentRequest setIsPremiumUser={setIsPremiumUser} />
-                )}
+                <PaymentRequest setUserInfo={setUserInfo} userInfo={userInfo} />
               </Grid>
             </Grid>
             <Box mt={2}>
-              <Expenses />
+              <Expenses userInfo={userInfo} setUserInfo={setUserInfo} />
             </Box>
           </>
         ) : isLoginPage ? (
           <Login
             setAuthenticated={setAuthenticated}
             setIsLoginPage={setIsLoginPage}
-            setIsPremiumUser={setIsPremiumUser}
+            setUserInfo={setUserInfo}
           />
         ) : (
           <SignUp
             setAuthenticated={setAuthenticated}
             setIsLoginPage={setIsLoginPage}
-            setIsPremiumUser={setIsPremiumUser}
+            setUserInfo={setUserInfo}
+            userInfo={userInfo}
           />
         )}
       </Box>

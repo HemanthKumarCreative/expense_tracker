@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
+import Cookies from "js-cookie"; // Import js-cookie
 
-const LoginForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
+const LoginForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -26,12 +27,12 @@ const LoginForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.user);
-        localStorage.setItem("token", JSON.stringify(data.user));
+
+        // Store userInfo in cookies
+        Cookies.set("userInfo", JSON.stringify(data.user));
+        Cookies.set("token", JSON.stringify(data.token));
         setAuthenticated(true);
-        setIsPremiumUser(
-          JSON.parse(localStorage.getItem("token"))?.isPremiumUser
-        );
+        setUserInfo(data.user);
         console.log("Login successful:", data);
       } else {
         const errorData = await response.json();

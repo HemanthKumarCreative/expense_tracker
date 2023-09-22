@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 
-const ExpenseForm = ({ expenses, setExpenses }) => {
+const ExpenseForm = ({ expenses, setExpenses, userInfo }) => {
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
@@ -15,7 +15,7 @@ const ExpenseForm = ({ expenses, setExpenses }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = JSON.parse(localStorage.getItem("token")).id;
+    const userId = userInfo.id;
     formData.user_id = userId;
     console.log(formData);
 

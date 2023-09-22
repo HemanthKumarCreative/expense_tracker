@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { TextField, Button, Box, Container, Typography } from "@mui/material";
 
-const SignupForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
+const SignupForm = ({
+  setAuthenticated,
+  setIsLoginPage,
+  setIsPremiumUser,
+  setUserInfo,
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,11 +33,9 @@ const SignupForm = ({ setAuthenticated, setIsLoginPage, setIsPremiumUser }) => {
       if (response.ok) {
         const data = await response.json();
 
-        localStorage.setItem("token", JSON.stringify(data));
         setAuthenticated(true);
-        setIsPremiumUser(
-          JSON.parse(localStorage.getItem("token")).isPremiumUser
-        );
+        setIsPremiumUser(data.isPremiumUser);
+        setUserInfo(data);
         console.log("User created:", data);
       } else {
         console.error("Error:", response.statusText);
