@@ -22,7 +22,7 @@ const App = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <Box mt={4}>
         {authenticated ? (

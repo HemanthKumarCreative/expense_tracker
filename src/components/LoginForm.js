@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
 import Cookies from "js-cookie"; // Import js-cookie
-
+import ForgotPasswordForm from "./ForgetPassword";
 const LoginForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [isForgetPasswordPage, setIsForgetPasswordPage] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,51 +48,73 @@ const LoginForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
     setIsLoginPage(false);
   };
 
+  const handleForgetPassword = () => {
+    setIsForgetPasswordPage(true);
+  };
+
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Login
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          label="Email"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <TextField
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          label="Password"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Button variant="contained" color="primary" type="submit">
+    <Container>
+      {!isForgetPasswordPage ? (
+        <>
+          <Typography variant="h4" align="center" gutterBottom>
             Login
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={handlePageSwitch}
-          >
-            Sign Up
-          </Button>
-        </div>
-      </form>
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              label="Email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              label="Password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button variant="contained" color="primary" type="submit">
+                Login
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={handlePageSwitch}
+              >
+                Sign Up
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={handleForgetPassword}
+              >
+                Forget Password
+              </Button>
+            </div>
+          </form>
+        </>
+      ) : (
+        <>
+          <ForgotPasswordForm
+            setIsForgetPasswordPage={setIsForgetPasswordPage}
+          />
+        </>
+      )}
     </Container>
   );
 };
