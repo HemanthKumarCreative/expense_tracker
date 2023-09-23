@@ -48,7 +48,11 @@ const App = () => {
               </Grid>
             </Grid>
             <Box mt={2}>
-              <Expenses userInfo={userInfo} setUserInfo={setUserInfo} />
+              <Expenses
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                isLeaderBoardShown={isLeaderBoardShown}
+              />
             </Box>
           </>
         ) : isLoginPage ? (

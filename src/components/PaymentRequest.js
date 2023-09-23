@@ -86,7 +86,7 @@ const PaymentRequest = ({
         <></>
       ) : (
         <Button variant="contained" color="primary" onClick={showLeaderBoard}>
-          Leader Board
+          {isLeaderBoardShown ? "Show Expenses" : "Show Leader Board"}
         </Button>
       )}
     </Container>

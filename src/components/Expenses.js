@@ -2,9 +2,10 @@ import ExpenseForm from "./ExpenseForm";
 import ExpenseList from "./ExpenseList";
 import Cookies from "js-cookie"; // Import js-cookie
 import UserList from "./UserList";
+import NoExpensesMessage from "../ui/NoExpenseMessage";
 import React, { useState, useEffect } from "react";
 
-function Expenses() {
+function Expenses({ isLeaderBoardShown }) {
   const [expenses, setExpenses] = useState([]);
   const userInfo = JSON.parse(Cookies.get("userInfo"));
 
@@ -34,16 +35,17 @@ function Expenses() {
         setExpenses={setExpenses}
         userInfo={userInfo}
       />
-      {expenses.length ? (
-        <ExpenseList
-          expenses={expenses}
-          setExpenses={setExpenses}
-          userInfo={userInfo}
-        />
-      ) : (
-        <></>
-      )}
-      <UserList />
+      {!isLeaderBoardShown &&
+        (expenses.length ? (
+          <ExpenseList
+            expenses={expenses}
+            setExpenses={setExpenses}
+            userInfo={userInfo}
+          />
+        ) : (
+          <NoExpensesMessage />
+        ))}
+      {isLeaderBoardShown && <UserList />}
     </>
   );
 }

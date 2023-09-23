@@ -36,7 +36,7 @@ const ExpenseList = ({ expenses, setExpenses }) => {
     }
   };
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md" sx={{ marginTop: 4, marginBottom: 4 }}>
       <Typography variant="h4" align="center" gutterBottom>
         Expense List
       </Typography>

@@ -29,9 +29,9 @@ const UserList = () => {
   }, []);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ marginTop: 4, marginBottom: 4 }}>
       <Typography variant="h4" gutterBottom>
-        User List
+        Leader Board
       </Typography>
       <TableContainer component={Paper}>
         <Table>
