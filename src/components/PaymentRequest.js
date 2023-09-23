@@ -3,7 +3,11 @@ import { Button, Container } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const PaymentRequest = ({ setUserInfo }) => {
+const PaymentRequest = ({
+  setUserInfo,
+  setIsLeaderBoardShown,
+  isLeaderBoardShown,
+}) => {
   const userInfo = JSON.parse(Cookies.get("userInfo"));
   const [isPremiumUser, setIsPremiumUser] = useState(userInfo.isPremiumUser);
 
@@ -62,8 +66,14 @@ const PaymentRequest = ({ setUserInfo }) => {
     }
   };
 
+  const showLeaderBoard = () => {
+    setIsLeaderBoardShown(!isLeaderBoardShown);
+  };
+
   return (
-    <Container maxWidth="sm">
+    <Container
+      style={{ display: "flex", justifyContent: "space-around", width: "25em" }}
+    >
       <Button
         variant="contained"
         color="primary"
@@ -72,6 +82,13 @@ const PaymentRequest = ({ setUserInfo }) => {
       >
         {!isPremiumUser ? "Buy Premium" : "Pro User"}
       </Button>
+      {!isPremiumUser ? (
+        <></>
+      ) : (
+        <Button variant="contained" color="primary" onClick={showLeaderBoard}>
+          Leader Board
+        </Button>
+      )}
     </Container>
   );
 };

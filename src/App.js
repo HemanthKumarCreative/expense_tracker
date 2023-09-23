@@ -13,6 +13,7 @@ const App = () => {
 
   const [isLoginPage, setIsLoginPage] = useState(true);
   const [userInfo, setUserInfo] = useState({});
+  const [isLeaderBoardShown, setIsLeaderBoardShown] = useState(false);
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -38,7 +39,12 @@ const App = () => {
                 </Button>
               </Grid>
               <Grid item xs={6}>
-                <PaymentRequest setUserInfo={setUserInfo} userInfo={userInfo} />
+                <PaymentRequest
+                  setUserInfo={setUserInfo}
+                  userInfo={userInfo}
+                  isLeaderBoardShown={isLeaderBoardShown}
+                  setIsLeaderBoardShown={setIsLeaderBoardShown}
+                />
               </Grid>
             </Grid>
             <Box mt={2}>

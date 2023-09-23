@@ -1,7 +1,7 @@
 import ExpenseForm from "./ExpenseForm";
 import ExpenseList from "./ExpenseList";
 import Cookies from "js-cookie"; // Import js-cookie
-
+import UserList from "./UserList";
 import React, { useState, useEffect } from "react";
 
 function Expenses() {
@@ -43,6 +43,7 @@ function Expenses() {
       ) : (
         <></>
       )}
+      <UserList />
     </>
   );
 }
