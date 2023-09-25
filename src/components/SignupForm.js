@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { TextField, Button, Box, Container, Typography } from "@mui/material";
-import Cookies from "js-cookie"; // Import js-cookie
+import { TextField, Button } from "@mui/material";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
-const SignupForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
+const Signup = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,79 +31,55 @@ const SignupForm = ({ setAuthenticated, setIsLoginPage, setUserInfo }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log({ data });
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", JSON.stringify(data.token));
-        setAuthenticated(true);
-        setUserInfo(data.user);
-
-        console.log("User created:", data);
+        navigate("/Home");
       } else {
-        console.error("Error:", response.statusText);
+        const errorData = await response.json();
+        console.error("Error:", errorData.message);
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const handlePageSwitch = () => {
-    setIsLoginPage(true);
-  };
-
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
+    <form onSubmit={handleSubmit}>
+      <TextField
+        fullWidth
+        margin="normal"
+        variant="outlined"
+        label="Name"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        variant="outlined"
+        label="Email"
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <TextField
+        fullWidth
+        margin="normal"
+        variant="outlined"
+        label="Password"
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+      />
+      <Button variant="contained" color="primary" type="submit">
         Sign Up
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Box sx={{ "& > :not(style)": { m: 1, width: "40ch" } }}>
-          <TextField
-            id="name"
-            label="Name"
-            variant="outlined"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-          <TextField
-            id="email"
-            label="Email"
-            variant="outlined"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <TextField
-            id="password"
-            label="Password"
-            variant="outlined"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={handlePageSwitch}
-            >
-              Login
-            </Button>
-            <Button variant="contained" color="primary" type="submit">
-              Sign Up
-            </Button>
-          </div>
-        </Box>
-      </form>
-    </Container>
+      </Button>
+    </form>
   );
 };
 
-export default SignupForm;
+export default Signup;

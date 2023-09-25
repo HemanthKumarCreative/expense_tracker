@@ -43,7 +43,7 @@ const ExpenseList = ({ expenses, setExpenses }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Amount</TableCell>
+            <TableCell>{"Amount ( $ )"}</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Category</TableCell>
           </TableRow>

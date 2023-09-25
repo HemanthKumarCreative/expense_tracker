@@ -76,7 +76,7 @@ const PaymentRequest = ({
     >
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={handlePaymentRequest}
         disabled={!isPremiumUser ? false : true}
       >
@@ -85,7 +85,7 @@ const PaymentRequest = ({
       {!isPremiumUser ? (
         <></>
       ) : (
-        <Button variant="contained" color="primary" onClick={showLeaderBoard}>
+        <Button variant="contained" color="secondary" onClick={showLeaderBoard}>
           {isLeaderBoardShown ? "Show Expenses" : "Show Leader Board"}
         </Button>
       )}

@@ -1,8 +1,16 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const ResetPasswordForm = ({ handleSubmit }) => {
+const ResetPasswordForm = () => {
+  const { search } = useLocation();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(search);
+  const email = params.get("email");
   const [formData, setFormData] = useState({
+    email: email,
     newPassword: "",
     confirmPassword: "",
   });
@@ -12,22 +20,37 @@ const ResetPasswordForm = ({ handleSubmit }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.newPassword === formData.confirmPassword) {
-      handleSubmit(formData.newPassword);
-    } else {
+    const { email, newPassword, confirmPassword } = formData;
+
+    if (newPassword !== confirmPassword) {
       alert("Passwords do not match. Please try again.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/reset-password",
+        {
+          email,
+          newPassword,
+        }
+      );
+      navigate("/");
+      console.log(response.data.message);
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" align="center" gutterBottom>
-        Reset Password
+        {`Reset Password for ${email}`}
       </Typography>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           margin="normal"

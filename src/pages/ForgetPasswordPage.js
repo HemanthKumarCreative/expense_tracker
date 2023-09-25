@@ -1,11 +1,12 @@
 import React from "react";
+import { Container } from "@mui/material";
 import ForgotPasswordForm from "../components/ForgetPassword";
 
 const ForgetPasswordPage = () => {
   return (
-    <div>
+    <Container maxWidth="sm">
       <ForgotPasswordForm />
-    </div>
+    </Container>
   );
 };
 

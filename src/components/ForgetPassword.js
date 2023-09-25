@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const ForgotPasswordForm = ({ setIsForgetPasswordPage }) => {
+const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -20,9 +22,8 @@ const ForgotPasswordForm = ({ setIsForgetPasswordPage }) => {
           email,
         }
       );
-
+      navigate("/");
       setMessage(response.data.message);
-      setIsForgetPasswordPage(false);
     } catch (error) {
       console.error("Error:", error);
       setMessage("An error occurred. Please try again later.");
