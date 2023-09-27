@@ -29,7 +29,7 @@ function Expenses({ isLeaderBoardShown }) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={6} style={{ marginTop: "2rem" }}>
         <ExpenseForm
           expenses={expenses}
           setExpenses={setExpenses}

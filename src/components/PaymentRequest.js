@@ -74,14 +74,18 @@ const PaymentRequest = ({
     <Container
       style={{ display: "flex", justifyContent: "space-around", width: "25em" }}
     >
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handlePaymentRequest}
-        disabled={!isPremiumUser ? false : true}
-      >
-        {!isPremiumUser ? "Buy Premium" : "Pro User"}
-      </Button>
+      {!isPremiumUser ? (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handlePaymentRequest}
+          disabled={!isPremiumUser ? false : true}
+        >
+          {!isPremiumUser ? "Buy Premium" : "Pro User"}
+        </Button>
+      ) : (
+        <></>
+      )}
       {!isPremiumUser ? (
         <></>
       ) : (
