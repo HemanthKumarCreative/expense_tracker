@@ -103,9 +103,13 @@ const HomePage = () => {
               isLeaderBoardShown={isLeaderBoardShown}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <ReportHistoryTable downloads={downloads} />
-          </Grid>
+          {downloads.length ? (
+            <Grid item xs={12} md={6}>
+              <ReportHistoryTable downloads={downloads} />
+            </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Container>
     </>

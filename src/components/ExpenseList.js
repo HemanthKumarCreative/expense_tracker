@@ -7,14 +7,19 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Button,
 } from "@mui/material";
 import DeleteButton from "../ui/Delete";
 
-const ExpenseList = ({ expenses, setExpenses }) => {
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    console.log(e.target.id);
-    const expenseId = e.target.id;
+const ExpenseList = ({
+  expenses,
+  setExpenses,
+  currentPage,
+  setPage,
+  totalPages,
+  fetchExpenses,
+}) => {
+  const handleDelete = async (expenseId) => {
     try {
       const response = await fetch(
         `http://localhost:5000/api/expenses/${expenseId}`,
@@ -25,8 +30,13 @@ const ExpenseList = ({ expenses, setExpenses }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setExpenses(expenses.filter((expense) => expense.id !== expenseId));
         console.log("Expense Deleted:", data);
+        fetchExpenses();
+
+        // Check if the last expense on the current page was deleted
+        if (expenses.length === 1 && currentPage > 1) {
+          setPage(currentPage - 1); // Go back a page if possible
+        }
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData.message);
@@ -35,6 +45,7 @@ const ExpenseList = ({ expenses, setExpenses }) => {
       console.error("Error:", error);
     }
   };
+
   return (
     <Container maxWidth="md" sx={{ marginTop: 4, marginBottom: 4 }}>
       <Typography variant="h4" align="center" gutterBottom>
@@ -55,12 +66,21 @@ const ExpenseList = ({ expenses, setExpenses }) => {
               <TableCell>{expense.description}</TableCell>
               <TableCell>{expense.category}</TableCell>
               <TableCell>
-                <DeleteButton id={expense.id} onClick={handleDelete} />
+                <DeleteButton
+                  id={expense.id}
+                  onClick={() => handleDelete(expense.id)}
+                />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {currentPage > 1 && (
+        <Button onClick={() => setPage(currentPage - 1)}>Previous</Button>
+      )}
+      {currentPage < totalPages && (
+        <Button onClick={() => setPage(currentPage + 1)}>Next</Button>
+      )}
     </Container>
   );
 };
