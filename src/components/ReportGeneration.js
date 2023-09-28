@@ -1,16 +1,29 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
 
-const ReportGeneration = ({ isPremiumUser, userInfo }) => {
+const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
   const storeToDB = async (reportUrl) => {
     // db related api calls
+    const downloadRecord = {
+      user_id: userInfo.id,
+      file_link: reportUrl,
+    };
+    console.log({ downloadRecord });
     try {
       const response = await fetch(
         `http://localhost:5000/api/downloads/${userInfo.id}`,
-        { method: "POST", body: { user_id: userInfo.id, file_link: reportUrl } }
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(downloadRecord),
+        }
       );
       const data = await response.json();
-      console.log({ data });
+      if (data) {
+        getAllDownloads();
+      }
     } catch (err) {
       console.error(err);
     }
@@ -24,7 +37,7 @@ const ReportGeneration = ({ isPremiumUser, userInfo }) => {
       );
       const data = await response.json();
       const reportUrl = data.report_url;
-      // await storeToDB(reportUrl);
+      await storeToDB(reportUrl);
       // Open the URL in a new tab
       window.open(reportUrl, "_blank");
     } catch (error) {

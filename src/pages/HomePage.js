@@ -14,64 +14,50 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import ReportHistoryTable from "../components/ReportsDownloads";
 
+function formatTimestamp(timestamp) {
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  const date = new Date(timestamp).toLocaleDateString(undefined, options);
+  const time = new Date(timestamp).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return {
+    date: date,
+    time: time,
+  };
+}
+
 const HomePage = () => {
   const [userInfo, setUserInfo] = useState(JSON.parse(Cookies.get("userInfo")));
   const [isLeaderBoardShown, setIsLeaderBoardShown] = useState(false);
+  const [downloads, setDownloads] = useState([]);
   const navigate = useNavigate();
 
+  const getAllDownloads = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/downloads/${userInfo.id}`
+      );
+      let data = await response.json();
+      data = data.map((download) => {
+        const updatedDownload = {};
+        updatedDownload.id = download.id;
+        const dateTimeObject = formatTimestamp(download.createdAt);
+        updatedDownload.date = dateTimeObject.date;
+        updatedDownload.time = dateTimeObject.time;
+        updatedDownload.fileLink = download.file_link;
+        return updatedDownload;
+      });
+      setDownloads(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    const getAllDownloads = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/downloads/${userInfo.id}`
-        );
-        const data = await response.json();
-        console.log({ data });
-      } catch (err) {
-        console.error(err);
-      }
-    };
     getAllDownloads();
   }, []);
-
-  const reportData = [
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-    {
-      date: "22/10/2023",
-      time: "5:30 AM",
-      fileLink:
-        "https://expensetracker250923.s3.amazonaws.com/expense_report6ed575f9-210b-4302-8f2c-324fc0ee32279%3A08%3A38+am.xlsx",
-    },
-  ];
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -92,6 +78,7 @@ const HomePage = () => {
             <ReportGeneration
               userInfo={userInfo}
               isPremiumUser={userInfo.isPremiumUser}
+              getAllDownloads={getAllDownloads}
             />
           ) : (
             <></>
@@ -117,7 +104,7 @@ const HomePage = () => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ReportHistoryTable reportData={reportData} />
+            <ReportHistoryTable downloads={downloads} />
           </Grid>
         </Grid>
       </Container>
