@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import DeleteButton from "../ui/Delete";
-
+import base_url from "../utils/url";
 const ExpenseList = ({
   expenses,
   setExpenses,
@@ -21,12 +21,9 @@ const ExpenseList = ({
 }) => {
   const handleDelete = async (expenseId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/expenses/${expenseId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${base_url}/api/expenses/${expenseId}`, {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         const data = await response.json();

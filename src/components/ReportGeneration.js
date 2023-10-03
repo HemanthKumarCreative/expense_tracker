@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
-
+import base_url from "../utils/url";
 const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
   const storeToDB = async (reportUrl) => {
     // db related api calls
@@ -10,16 +10,13 @@ const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
     };
     console.log({ downloadRecord });
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/downloads/${userInfo.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(downloadRecord),
-        }
-      );
+      const response = await fetch(`${base_url}/api/downloads/${userInfo.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(downloadRecord),
+      });
       const data = await response.json();
       if (data) {
         getAllDownloads();
@@ -32,9 +29,7 @@ const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
   const handleDownload = async () => {
     const userId = userInfo.id;
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/reports/${userId}`
-      );
+      const response = await fetch(`${base_url}/api/reports/${userId}`);
       const data = await response.json();
       const reportUrl = data.report_url;
       await storeToDB(reportUrl);

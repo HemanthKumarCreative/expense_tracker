@@ -10,14 +10,14 @@ import {
   TableBody,
   Paper,
 } from "@mui/material";
-
+import base_url from "../utils/url";
 const UserList = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/users");
+        const response = await fetch(`${base_url}/api/users`);
         const data = await response.json();
         setUsers(data);
       } catch (error) {

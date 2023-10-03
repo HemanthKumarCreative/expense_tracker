@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Container } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import base_url from "../utils/url";
 const PaymentRequest = ({
   setUserInfo,
   setIsLeaderBoardShown,
@@ -13,7 +13,7 @@ const PaymentRequest = ({
 
   const handlePaymentRequest = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/payment");
+      const response = await axios.post(`${base_url}/api/payment`);
       const { order } = await response.data;
 
       console.log({ userInfo });
@@ -37,7 +37,7 @@ const PaymentRequest = ({
 
           try {
             const response = await axios.post(
-              "http://localhost:5000/api/orders",
+              `${base_url}/api/orders`,
               orderData
             );
             const { order, updatedUser } = await response.data;

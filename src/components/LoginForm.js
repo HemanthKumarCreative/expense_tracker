@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie"; // Import js-cookie
 import { useNavigate } from "react-router-dom";
-
+import base_url from "../utils/url";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -20,7 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
+      const response = await fetch(`${base_url}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

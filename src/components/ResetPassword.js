@@ -3,7 +3,7 @@ import { TextField, Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import base_url from "../utils/url";
 const ResetPasswordForm = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
@@ -31,13 +31,10 @@ const ResetPasswordForm = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/reset-password",
-        {
-          email,
-          newPassword,
-        }
-      );
+      const response = await axios.post(`${base_url}/api/reset-password`, {
+        email,
+        newPassword,
+      });
       navigate("/");
       console.log(response.data.message);
     } catch (error) {

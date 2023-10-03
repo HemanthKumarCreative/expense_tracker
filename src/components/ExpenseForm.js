@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
-
+import base_url from "../utils/url";
 const ExpenseForm = ({ expenses, setExpenses, userInfo, fetchExpenses }) => {
   const [formData, setFormData] = useState({
     amount: "",
@@ -20,7 +20,7 @@ const ExpenseForm = ({ expenses, setExpenses, userInfo, fetchExpenses }) => {
     console.log(formData);
 
     try {
-      const response = await fetch("http://localhost:5000/api/expenses", {
+      const response = await fetch(`${base_url}/api/expenses`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

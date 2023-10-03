@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import base_url from "../utils/url";
 import {
   Button,
   Container,
@@ -36,9 +37,7 @@ const HomePage = () => {
 
   const getAllDownloads = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/downloads/${userInfo.id}`
-      );
+      const response = await fetch(`${base_url}/api/downloads/${userInfo.id}`);
       let data = await response.json();
       data = data.map((download) => {
         const updatedDownload = {};

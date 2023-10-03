@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import base_url from "../utils/url";
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -16,12 +16,9 @@ const ForgotPasswordForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/forgot-password",
-        {
-          email,
-        }
-      );
+      const response = await axios.post(`${base_url}/api/forgot-password`, {
+        email,
+      });
       navigate("/");
       setMessage(response.data.message);
     } catch (error) {

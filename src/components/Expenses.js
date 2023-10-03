@@ -5,7 +5,7 @@ import UserList from "../components/UserList";
 import NoExpensesMessage from "../ui/NoExpenseMessage";
 import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
-
+import base_url from "../utils/url";
 function Expenses({ isLeaderBoardShown }) {
   const [expenses, setExpenses] = useState([]);
   const userInfo = JSON.parse(Cookies.get("userInfo"));
@@ -18,7 +18,7 @@ function Expenses({ isLeaderBoardShown }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/expenses/${userId}?page=${page}`
+        `${base_url}/api/expenses/${userId}?page=${page}`
       );
 
       const data = await response.json();
