@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 
-const ExpenseForm = ({ expenses, setExpenses, userInfo, fetchExpenses }) => {
+const ExpenseForm = ({
+  expenses,
+  setExpenses,
+  userInfo,
+  fetchExpenses,
+  setExpanded,
+}) => {
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
@@ -34,6 +40,7 @@ const ExpenseForm = ({ expenses, setExpenses, userInfo, fetchExpenses }) => {
         console.log("Expense Added:", data);
 
         fetchExpenses();
+        setExpanded("panel2");
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData.message);

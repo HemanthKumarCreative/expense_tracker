@@ -47,7 +47,10 @@ const ExpenseList = ({
   };
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: 4, marginBottom: 4 }}>
+    <Container
+      maxWidth="md"
+      sx={{ marginTop: 4, marginBottom: 4, height: "20rem" }}
+    >
       <Typography variant="h4" align="center" gutterBottom>
         Expense List
       </Typography>
@@ -59,7 +62,7 @@ const ExpenseList = ({
             <TableCell>Category</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody style={{ height: "13rem" }}>
           {expenses.map((expense) => (
             <TableRow key={expense.id}>
               <TableCell>{expense.amount}</TableCell>

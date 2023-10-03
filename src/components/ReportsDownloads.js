@@ -12,9 +12,14 @@ import {
 
 const ReportHistoryTable = ({ downloads }) => {
   return (
-    <TableContainer component={Paper}>
-      <h2>Expense Reports Generation History</h2>
-      <Table>
+    <TableContainer
+      component={Paper}
+      style={{ padding: "20px", margin: "20px", width: "80%" }}
+    >
+      <h2 style={{ marginBottom: "10px" }}>
+        Expense Reports Generation History
+      </h2>
+      <Table style={{ width: "65%" }}>
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
@@ -33,6 +38,7 @@ const ReportHistoryTable = ({ downloads }) => {
                   color="primary"
                   href={report.fileLink}
                   download={true}
+                  style={{ margin: "5px" }}
                 >
                   Download
                 </Button>
