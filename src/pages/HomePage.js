@@ -153,6 +153,7 @@ export default function CustomizedAccordions() {
               userInfo={userInfo}
               isPremiumUser={userInfo.isPremiumUser}
               getAllDownloads={getAllDownloads}
+              expenses={expenses}
             />
           ) : (
             <></>
@@ -213,21 +214,26 @@ export default function CustomizedAccordions() {
             {isLeaderBoardShown && <UserList />}
           </AccordionDetails>
         </Accordion>
-        <Accordion
-          expanded={expanded === "panel3"}
-          onChange={handleChange("panel3")}
-        >
-          <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-            <Typography>Reports Download History</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {downloads.length ? (
-              <ReportHistoryTable downloads={downloads} />
-            ) : (
-              <></>
-            )}
-          </AccordionDetails>
-        </Accordion>
+        {userInfo?.isPremiumUser && (
+          <Accordion
+            expanded={expanded === "panel3"}
+            onChange={handleChange("panel3")}
+          >
+            <AccordionSummary
+              aria-controls="panel3d-content"
+              id="panel3d-header"
+            >
+              <Typography>Reports Download History</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {downloads.length ? (
+                <ReportHistoryTable downloads={downloads} />
+              ) : (
+                <></>
+              )}
+            </AccordionDetails>
+          </Accordion>
+        )}
       </Container>
     </div>
   );

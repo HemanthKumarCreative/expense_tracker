@@ -1,7 +1,12 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
 
-const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
+const ReportGeneration = ({
+  isPremiumUser,
+  userInfo,
+  getAllDownloads,
+  expenses,
+}) => {
   const storeToDB = async (reportUrl) => {
     // db related api calls
     const downloadRecord = {
@@ -31,15 +36,18 @@ const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
 
   const handleDownload = async () => {
     const userId = userInfo.id;
+    console.log({ userId });
     try {
       const response = await fetch(
         `http://localhost:5000/api/reports/${userId}`
       );
       const data = await response.json();
-      const reportUrl = data.report_url;
-      await storeToDB(reportUrl);
+      const reportUrl = data?.report_url;
+      if (reportUrl !== undefined) {
+        await storeToDB(reportUrl);
+        window.open(reportUrl, "_blank");
+      }
       // Open the URL in a new tab
-      window.open(reportUrl, "_blank");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -51,7 +59,7 @@ const ReportGeneration = ({ isPremiumUser, userInfo, getAllDownloads }) => {
         variant="contained"
         color="secondary"
         onClick={handleDownload}
-        disabled={!isPremiumUser}
+        disabled={!isPremiumUser || expenses.length === 0}
       >
         Download Expenses
       </Button>
