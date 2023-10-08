@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
 import Cookies from "js-cookie"; // Import js-cookie
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -20,22 +20,18 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await axios.post("http://localhost:5000/api/login", {
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.data;
 
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", data.token);
         navigate("/Home");
       } else {
-        const errorData = await response.json();
+        const errorData = await response.data;
         console.error("Error:", errorData.message);
       }
     } catch (error) {

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 import Cookies from "js-cookie";
+import axios from "axios";
+axios.defaults.headers.common["Authorization"] = Cookies.get("token");
 
+axios.defaults.headers.post["Content-Type"] = "application/json";
+console.log(axios);
 const ExpenseForm = ({
   expenses,
   setExpenses,
@@ -27,24 +31,19 @@ const ExpenseForm = ({
     console.log(formData);
 
     try {
-      const response = await fetch("http://localhost:5000/api/expenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `${Cookies.get("token")}`,
-        },
-        body: JSON.stringify(formData),
+      const response = await axios.post("http://localhost:5000/api/expenses", {
+        ...formData,
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.data;
 
         console.log("Expense Added:", data);
 
         fetchExpenses();
         setExpanded("panel2");
       } else {
-        const errorData = await response.json();
+        const errorData = await response.data;
         console.error("Error:", errorData.message);
       }
       setFormData({

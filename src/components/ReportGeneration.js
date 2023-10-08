@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Box } from "@mui/material";
+import axios from "axios";
 
 const ReportGeneration = ({
   isPremiumUser,
@@ -15,17 +16,13 @@ const ReportGeneration = ({
     };
     console.log({ downloadRecord });
     try {
-      const response = await fetch(
+      const response = await axios.post(
         `http://localhost:5000/api/downloads/${userInfo.id}`,
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify(downloadRecord),
         }
       );
-      const data = await response.json();
+      const data = await response.data;
       if (data) {
         getAllDownloads();
       }
@@ -38,10 +35,10 @@ const ReportGeneration = ({
     const userId = userInfo.id;
     console.log({ userId });
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `http://localhost:5000/api/reports/${userId}`
       );
-      const data = await response.json();
+      const data = await response.data;
       const reportUrl = data?.report_url;
       if (reportUrl !== undefined) {
         await storeToDB(reportUrl);

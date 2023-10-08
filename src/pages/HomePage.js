@@ -21,6 +21,7 @@ import ExpenseForm from "../components/ExpenseForm";
 import ExpenseList from "../components/ExpenseList";
 import UserList from "../components/UserList";
 import NoExpensesMessage from "../ui/NoExpenseMessage";
+import axios from "axios";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -84,10 +85,10 @@ export default function CustomizedAccordions() {
 
   const getAllDownloads = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `http://localhost:5000/api/downloads/${userInfo.id}`
       );
-      let data = await response.json();
+      let data = await response.data;
       data = data.map((download) => {
         const updatedDownload = {};
         updatedDownload.id = download.id;
@@ -108,17 +109,11 @@ export default function CustomizedAccordions() {
     const page = currentPage || 1; // Get the current page from state, default to 1
 
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/expenses/${userId}?page=${page}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${Cookies.get("token")}`,
-          },
-        }
+      const response = await axios.get(
+        `http://localhost:5000/api/expenses/${userId}?page=${page}`
       );
 
-      const data = await response.json();
+      const data = await response.data;
       setExpenses(data.expenses);
 
       // Update total pages if available in the response

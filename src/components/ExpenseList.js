@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import DeleteButton from "../ui/Delete";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const ExpenseList = ({
   expenses,
@@ -22,19 +23,12 @@ const ExpenseList = ({
 }) => {
   const handleDelete = async (expenseId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/expenses/${expenseId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `${Cookies.get("token")}`,
-          },
-        }
+      const response = await axios.delete(
+        `http://localhost:5000/api/expenses/${expenseId}`
       );
 
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.data;
         console.log("Expense Deleted:", data);
         fetchExpenses();
 
@@ -43,7 +37,7 @@ const ExpenseList = ({
           setPage(currentPage - 1); // Go back a page if possible
         }
       } else {
-        const errorData = await response.json();
+        const errorData = await response.data;
         console.error("Error:", errorData.message);
       }
     } catch (error) {
