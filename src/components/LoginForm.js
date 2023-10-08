@@ -32,7 +32,7 @@ const Login = () => {
         const data = await response.json();
 
         Cookies.set("userInfo", JSON.stringify(data.user));
-        Cookies.set("token", JSON.stringify(data.token));
+        Cookies.set("token", data.token);
         navigate("/Home");
       } else {
         const errorData = await response.json();

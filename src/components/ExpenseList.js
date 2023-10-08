@@ -10,6 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import DeleteButton from "../ui/Delete";
+import Cookies from "js-cookie";
 
 const ExpenseList = ({
   expenses,
@@ -25,6 +26,10 @@ const ExpenseList = ({
         `http://localhost:5000/api/expenses/${expenseId}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
         }
       );
 
@@ -34,7 +39,7 @@ const ExpenseList = ({
         fetchExpenses();
 
         // Check if the last expense on the current page was deleted
-        if (expenses.length === 1 && currentPage > 1) {
+        if (expenses?.length === 1 && currentPage > 1) {
           setPage(currentPage - 1); // Go back a page if possible
         }
       } else {

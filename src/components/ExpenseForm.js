@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
+import Cookies from "js-cookie";
 
 const ExpenseForm = ({
   expenses,
@@ -30,6 +31,7 @@ const ExpenseForm = ({
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `${Cookies.get("token")}`,
         },
         body: JSON.stringify(formData),
       });

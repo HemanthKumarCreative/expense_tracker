@@ -109,7 +109,13 @@ export default function CustomizedAccordions() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/expenses/${userId}?page=${page}`
+        `http://localhost:5000/api/expenses/${userId}?page=${page}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${Cookies.get("token")}`,
+          },
+        }
       );
 
       const data = await response.json();
@@ -198,7 +204,7 @@ export default function CustomizedAccordions() {
           </AccordionSummary>
           <AccordionDetails>
             {!isLeaderBoardShown &&
-              (expenses.length ? (
+              (expenses?.length ? (
                 <ExpenseList
                   expenses={expenses}
                   setExpenses={setExpenses}
@@ -226,7 +232,7 @@ export default function CustomizedAccordions() {
               <Typography>Reports Download History</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {downloads.length ? (
+              {downloads?.length ? (
                 <ReportHistoryTable downloads={downloads} />
               ) : (
                 <></>

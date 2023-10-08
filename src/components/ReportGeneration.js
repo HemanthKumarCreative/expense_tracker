@@ -59,7 +59,7 @@ const ReportGeneration = ({
         variant="contained"
         color="secondary"
         onClick={handleDownload}
-        disabled={!isPremiumUser || expenses.length === 0}
+        disabled={!isPremiumUser || expenses?.length === 0}
       >
         Download Expenses
       </Button>
