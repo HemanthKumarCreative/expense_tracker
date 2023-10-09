@@ -35,7 +35,7 @@ const ExpenseForm = ({
         ...formData,
       });
 
-      if (response.statusText === "OK") {
+      if (response.statusText === "Created") {
         const data = await response.data;
 
         console.log("Expense Added:", data);
