@@ -25,8 +25,7 @@ const Signup = () => {
       const response = await axios.post("http://localhost:5000/api/signup", {
         ...formData,
       });
-
-      if (response.statusText === "OK") {
+      if (response.statusText === "Created") {
         const data = await response.data;
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", data.token);
