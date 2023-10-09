@@ -26,7 +26,7 @@ const Signup = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      if (response.statusText === "OK") {
         const data = await response.data;
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", JSON.stringify(data.token));

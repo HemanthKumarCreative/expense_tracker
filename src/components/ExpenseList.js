@@ -27,7 +27,7 @@ const ExpenseList = ({
         `http://localhost:5000/api/expenses/${expenseId}`
       );
 
-      if (response.ok) {
+      if (response.statusText === "OK") {
         const data = await response.data;
         console.log("Expense Deleted:", data);
         fetchExpenses();

@@ -21,10 +21,10 @@ const Login = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/api/login", {
-        body: JSON.stringify(formData),
+        ...formData,
       });
 
-      if (response.ok) {
+      if (response.statusText === "OK") {
         const data = await response.data;
 
         Cookies.set("userInfo", JSON.stringify(data.user));
