@@ -23,13 +23,13 @@ const Signup = () => {
 
     try {
       const response = await axios.post("http://localhost:5000/api/signup", {
-        body: JSON.stringify(formData),
+        ...formData,
       });
 
       if (response.statusText === "OK") {
         const data = await response.data;
         Cookies.set("userInfo", JSON.stringify(data.user));
-        Cookies.set("token", JSON.stringify(data.token));
+        Cookies.set("token", data.token);
         navigate("/Home");
       } else {
         const errorData = await response.data;

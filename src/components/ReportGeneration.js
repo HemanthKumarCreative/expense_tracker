@@ -14,12 +14,11 @@ const ReportGeneration = ({
       user_id: userInfo.id,
       file_link: reportUrl,
     };
-    console.log({ downloadRecord });
     try {
       const response = await axios.post(
         `http://localhost:5000/api/downloads/${userInfo.id}`,
         {
-          body: JSON.stringify(downloadRecord),
+          ...downloadRecord,
         }
       );
       const data = await response.data;
