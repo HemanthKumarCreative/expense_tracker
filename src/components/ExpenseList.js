@@ -28,8 +28,7 @@ const ExpenseList = ({
       );
 
       if (response.statusText === "OK") {
-        const data = await response.data;
-        console.log("Expense Deleted:", data);
+        await response.data;
         fetchExpenses();
 
         // Check if the last expense on the current page was deleted

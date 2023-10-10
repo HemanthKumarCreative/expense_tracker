@@ -32,7 +32,6 @@ const ReportGeneration = ({
 
   const handleDownload = async () => {
     const userId = userInfo.id;
-    console.log({ userId });
     try {
       const response = await axios.get(
         `http://localhost:5000/api/reports/${userId}`

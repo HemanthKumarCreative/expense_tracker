@@ -73,6 +73,9 @@ function formatTimestamp(timestamp) {
   };
 }
 
+axios.defaults.headers.common["Authorization"] = Cookies.get("token");
+axios.defaults.headers.post["Content-Type"] = "application/json";
+
 export default function CustomizedAccordions() {
   const [expanded, setExpanded] = React.useState("panel2");
   const [userInfo, setUserInfo] = useState(JSON.parse(Cookies.get("userInfo")));
@@ -113,7 +116,7 @@ export default function CustomizedAccordions() {
         `http://localhost:5000/api/expenses/${userId}?page=${page}`
       );
 
-      const data = await response.data;
+      const data = (await response.data) || [];
       setExpenses(data.expenses);
 
       // Update total pages if available in the response

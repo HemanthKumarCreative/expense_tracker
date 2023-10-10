@@ -16,9 +16,6 @@ const PaymentRequest = ({
       const response = await axios.post("http://localhost:5000/api/payment");
       const { order } = await response.data;
 
-      console.log({ userInfo });
-      console.log({ "order-details": order });
-
       const options = {
         key: "rzp_test_PPWdPOnQ2XuMkp", // Your Razorpay Key ID
         amount: order.amount,
@@ -27,7 +24,6 @@ const PaymentRequest = ({
         description: "Payment for Services",
         order_id: order.id,
         handler: async function (order) {
-          console.log(order);
           const orderData = {
             id: order.razorpay_order_id,
             user_id: userInfo.id,
@@ -40,14 +36,11 @@ const PaymentRequest = ({
               "http://localhost:5000/api/orders",
               orderData
             );
-            const { order, updatedUser } = await response.data;
-            console.log("Order created:", order);
-            console.log("User updated:", updatedUser);
+            const { updatedUser } = await response.data;
 
             setUserInfo(updatedUser);
             setIsPremiumUser(true);
             Cookies.set("userInfo", JSON.stringify(updatedUser));
-            console.log({ isPremiumUser });
           } catch (error) {
             console.error("Error:", error);
           }
@@ -58,7 +51,6 @@ const PaymentRequest = ({
 
       const rzp1 = new window.Razorpay(options);
       await rzp1.open();
-      console.log(rzp1);
 
       // You can now redirect the user to the Razorpay payment page using the received data.
     } catch (error) {

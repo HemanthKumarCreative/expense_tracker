@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 import Cookies from "js-cookie";
 import axios from "axios";
-axios.defaults.headers.common["Authorization"] = Cookies.get("token");
-
-axios.defaults.headers.post["Content-Type"] = "application/json";
-console.log(axios);
 const ExpenseForm = ({
   expenses,
   setExpenses,
@@ -28,7 +24,6 @@ const ExpenseForm = ({
     e.preventDefault();
     const userId = userInfo.id;
     formData.user_id = userId;
-    console.log(formData);
 
     try {
       const response = await axios.post("http://localhost:5000/api/expenses", {
@@ -36,10 +31,6 @@ const ExpenseForm = ({
       });
 
       if (response.statusText === "Created") {
-        const data = await response.data;
-
-        console.log("Expense Added:", data);
-
         fetchExpenses();
         setExpanded("panel2");
       } else {

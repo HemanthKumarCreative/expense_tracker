@@ -31,15 +31,11 @@ const ResetPasswordForm = () => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/reset-password",
-        {
-          email,
-          newPassword,
-        }
-      );
+      await axios.post("http://localhost:5000/api/reset-password", {
+        email,
+        newPassword,
+      });
       navigate("/");
-      console.log(response.data.message);
     } catch (error) {
       console.error("Error:", error);
     }
