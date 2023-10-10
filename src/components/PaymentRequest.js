@@ -17,7 +17,7 @@ const PaymentRequest = ({
       const { order } = await response.data;
 
       const options = {
-        key: "rzp_test_PPWdPOnQ2XuMkp", // Your Razorpay Key ID
+        key: "rzp_test_PPWdPOnQ2XuMkp",
         amount: order.amount,
         currency: order.currency,
         name: "Test Company",
@@ -28,7 +28,7 @@ const PaymentRequest = ({
             id: order.razorpay_order_id,
             user_id: userInfo.id,
             payment_id: order.razorpay_payment_id,
-            status: "complete", // Adjust the status as needed
+            status: "complete",
           };
 
           try {
@@ -45,14 +45,12 @@ const PaymentRequest = ({
             console.error("Error:", error);
           }
 
-          alert("Payment successful"); // Handle successful payment
+          alert("Payment successful");
         },
       };
 
       const rzp1 = new window.Razorpay(options);
       await rzp1.open();
-
-      // You can now redirect the user to the Razorpay payment page using the received data.
     } catch (error) {
       console.error("Error:", error);
     }

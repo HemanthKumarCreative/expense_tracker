@@ -4,14 +4,7 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Container,
-  AppBar,
-  Toolbar,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { Button, Container, AppBar, Toolbar, Typography } from "@mui/material";
 import ReportGeneration from "../components/ReportGeneration";
 import PaymentRequest from "../components/PaymentRequest";
 import Cookies from "js-cookie";
@@ -109,7 +102,7 @@ export default function CustomizedAccordions() {
 
   const fetchExpenses = async () => {
     const userId = userInfo.id;
-    const page = currentPage || 1; // Get the current page from state, default to 1
+    const page = currentPage || 1;
 
     try {
       const response = await axios.get(
@@ -119,7 +112,6 @@ export default function CustomizedAccordions() {
       const data = (await response.data) || [];
       setExpenses(data.expenses);
 
-      // Update total pages if available in the response
       if (data.totalPages !== undefined) {
         setTotalPages(data.totalPages);
       }

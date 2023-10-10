@@ -9,7 +9,6 @@ const ReportGeneration = ({
   expenses,
 }) => {
   const storeToDB = async (reportUrl) => {
-    // db related api calls
     const downloadRecord = {
       user_id: userInfo.id,
       file_link: reportUrl,

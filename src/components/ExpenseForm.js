@@ -1,14 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
-import Cookies from "js-cookie";
 import axios from "axios";
-const ExpenseForm = ({
-  expenses,
-  setExpenses,
-  userInfo,
-  fetchExpenses,
-  setExpanded,
-}) => {
+const ExpenseForm = ({ userInfo, fetchExpenses, setExpanded }) => {
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
@@ -92,7 +85,6 @@ const ExpenseForm = ({
               <option value="Food">Food</option>
               <option value="Petrol">Petrol</option>
               <option value="Salary">Salary</option>
-              {/* Add more categories as needed */}
             </TextField>
           </Grid>
           <Grid item xs={12}>
