@@ -30,6 +30,7 @@ const Signup = () => {
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", data.token);
         navigate("/Home");
+        window.location.reload(true);
       } else {
         const errorData = await response.data;
         console.error("Error:", errorData.message);
