@@ -106,12 +106,12 @@ export default function CustomizedAccordions() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/v1/expense/${userId}`
+        `http://localhost:5000/api/v1/expense/${userId}?page=${page}`
       );
       console.log(`Response from get all expenses`, response);
       const data = (await response.data.body) || [];
-      setExpenses(data);
-
+      setExpenses(data.expenses);
+      setPage(data.currentPage);
       if (data.totalPages !== undefined) {
         setTotalPages(data.totalPages);
       }

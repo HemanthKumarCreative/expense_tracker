@@ -43,6 +43,7 @@ const ExpenseList = ({
       console.error(error);
     }
   };
+
   const handleDelete = async (expense) => {
     const expenseId = expense.id;
     const expenseAmount = expense.amount;
@@ -66,6 +67,13 @@ const ExpenseList = ({
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const incrementPage = () => {
+    setPage(parseInt(currentPage) + 1);
+  };
+  const decrementPage = () => {
+    setPage(parseInt(currentPage) - 1);
   };
   return (
     <Container
@@ -100,10 +108,10 @@ const ExpenseList = ({
         </TableBody>
       </Table>
       {currentPage > 1 && (
-        <Button onClick={() => setPage(currentPage - 1)}>Previous</Button>
+        <Button onClick={() => decrementPage()}>Previous</Button>
       )}
       {currentPage < totalPages && (
-        <Button onClick={() => setPage(currentPage + 1)}>Next</Button>
+        <Button onClick={() => incrementPage()}>Next</Button>
       )}
     </Container>
   );
