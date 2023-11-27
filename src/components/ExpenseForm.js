@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Container, Typography, Grid } from "@mui/material";
 import axios from "axios";
+
 const ExpenseForm = ({ userInfo, fetchExpenses, setExpanded }) => {
   const [formData, setFormData] = useState({
     amount: "",
@@ -13,18 +14,46 @@ const ExpenseForm = ({ userInfo, fetchExpenses, setExpanded }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const getTotalExpense = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/user/${userInfo.id}`
+      );
+      const totalExpense = await response.data.body.totalExpenses;
+      return totalExpense;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateTotalExpense = async (expense) => {
+    try {
+      const totalExpense = await getTotalExpense();
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/user/${userInfo.id}`,
+        { totalExpenses: parseInt(totalExpense) + parseInt(expense) }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userId = userInfo.id;
-    formData.user_id = userId;
+    formData.userId = userId;
 
     try {
-      const response = await axios.post("http://localhost:5000/api/expenses", {
-        ...formData,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/expense",
+        {
+          ...formData,
+        }
+      );
 
       if (response.statusText === "Created") {
-        fetchExpenses();
+        await updateTotalExpense(response.data.body.amount);
+        await fetchExpenses();
         setExpanded("panel2");
       } else {
         const errorData = await response.data;

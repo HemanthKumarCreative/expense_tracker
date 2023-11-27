@@ -22,13 +22,17 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", {
-        ...formData,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/user/signup",
+        {
+          ...formData,
+        }
+      );
       if (response.statusText === "Created") {
         const data = await response.data;
-        Cookies.set("userInfo", JSON.stringify(data.user));
-        Cookies.set("token", data.token);
+
+        Cookies.set("userInfo", JSON.stringify(data.body.user));
+        Cookies.set("token", data.body.token);
         navigate("/Home");
         window.location.reload(true);
       } else {

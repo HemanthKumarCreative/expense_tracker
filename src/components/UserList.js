@@ -18,8 +18,9 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
-        const data = await response.data;
+        const response = await axios.get("http://localhost:5000/api/v1/user");
+        const data = await response.data.body;
+        console.log(data);
         setUsers(data);
       } catch (error) {
         console.error("Error:", error);
@@ -47,7 +48,7 @@ const UserList = () => {
               users.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.total_expenses}</TableCell>
+                  <TableCell>{user.totalExpenses}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

@@ -17,7 +17,7 @@ const ForgotPasswordForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/forgot-password",
+        "http://localhost:5000/api/v1/password/forgot-password",
         {
           email,
         }

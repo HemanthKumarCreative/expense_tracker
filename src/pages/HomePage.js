@@ -82,16 +82,16 @@ export default function CustomizedAccordions() {
   const getAllDownloads = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/downloads/${userInfo.id}`
+        `http://localhost:5000/api/v1/download/${userInfo.id}`
       );
-      let data = await response.data;
+      let data = await response.data.body;
       data = data.map((download) => {
         const updatedDownload = {};
         updatedDownload.id = download.id;
         const dateTimeObject = formatTimestamp(download.createdAt);
         updatedDownload.date = dateTimeObject.date;
         updatedDownload.time = dateTimeObject.time;
-        updatedDownload.fileLink = download.file_link;
+        updatedDownload.fileLink = download.fileLink;
         return updatedDownload;
       });
       setDownloads(data);
@@ -106,11 +106,11 @@ export default function CustomizedAccordions() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/expenses/${userId}?page=${page}`
+        `http://localhost:5000/api/v1/expense/${userId}`
       );
-
-      const data = (await response.data) || [];
-      setExpenses(data.expenses);
+      console.log(`Response from get all expenses`, response);
+      const data = (await response.data.body) || [];
+      setExpenses(data);
 
       if (data.totalPages !== undefined) {
         setTotalPages(data.totalPages);
@@ -132,7 +132,9 @@ export default function CustomizedAccordions() {
 
   useEffect(() => {
     fetchExpenses();
-    getAllDownloads();
+    if (userInfo?.isPremiumUser) {
+      getAllDownloads();
+    }
   }, [currentPage]);
 
   return (

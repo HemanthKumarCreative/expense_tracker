@@ -13,34 +13,37 @@ const PaymentRequest = ({
 
   const handlePaymentRequest = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/payment");
-      const { order } = await response.data;
-
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/order/collect-payment`
+      );
+      const order = await response.data.body;
+      console.log({ order });
       const options = {
-        key: "rzp_test_PPWdPOnQ2XuMkp",
+        key: "rzp_test_KWXeQRtZiHyU85",
         amount: order.amount,
         currency: order.currency,
         name: "Test Company",
         description: "Payment for Services",
-        order_id: order.id,
+        order_id: order.order_id,
         handler: async function (order) {
           const orderData = {
-            id: order.razorpay_order_id,
-            user_id: userInfo.id,
-            payment_id: order.razorpay_payment_id,
+            id: order.order_id,
+            user_id: userInfo?.id,
+            payment_id: order.order_id,
             status: "complete",
           };
 
           try {
-            const response = await axios.post(
-              "http://localhost:5000/api/orders",
-              orderData
+            const response = await axios.put(
+              `http://localhost:5000/api/v1/user/${userInfo?.id}`,
+              { isPremiumUser: true }
             );
-            const { updatedUser } = await response.data;
+            console.log(response);
+            const { body } = await response.data;
 
-            setUserInfo(updatedUser);
+            setUserInfo(body);
             setIsPremiumUser(true);
-            Cookies.set("userInfo", JSON.stringify(updatedUser));
+            Cookies.set("userInfo", JSON.stringify(body));
           } catch (error) {
             console.error("Error:", error);
           }

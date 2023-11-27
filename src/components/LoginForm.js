@@ -20,12 +20,15 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        ...formData,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/user/login",
+        {
+          ...formData,
+        }
+      );
 
       if (response.statusText === "OK") {
-        const data = await response.data;
+        const data = await response.data.body;
 
         Cookies.set("userInfo", JSON.stringify(data.user));
         Cookies.set("token", data.token);

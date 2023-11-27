@@ -10,15 +10,13 @@ const ReportGeneration = ({
 }) => {
   const storeToDB = async (reportUrl) => {
     const downloadRecord = {
-      user_id: userInfo.id,
-      file_link: reportUrl,
+      userId: userInfo.id,
+      fileLink: reportUrl,
     };
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/downloads/${userInfo.id}`,
-        {
-          ...downloadRecord,
-        }
+        `http://localhost:5000/api/v1/download`,
+        downloadRecord
       );
       const data = await response.data;
       if (data) {
@@ -32,10 +30,11 @@ const ReportGeneration = ({
   const handleDownload = async () => {
     const userId = userInfo.id;
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/reports/${userId}`
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/report/${userId}`
       );
-      const data = await response.data;
+      console.log({ response });
+      const data = await response.data.body;
       const reportUrl = data?.report_url;
       if (reportUrl !== undefined) {
         await storeToDB(reportUrl);

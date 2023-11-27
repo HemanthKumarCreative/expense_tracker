@@ -18,15 +18,42 @@ const ExpenseList = ({
   setPage,
   totalPages,
   fetchExpenses,
+  userInfo,
 }) => {
-  const handleDelete = async (expenseId) => {
+  const getTotalExpense = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/v1/user/${userInfo.id}`
+      );
+      const totalExpense = await response.data.body.totalExpenses;
+      return totalExpense;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const updateTotalExpense = async (expense) => {
+    try {
+      const totalExpense = await getTotalExpense();
+      const response = await axios.put(
+        `http://localhost:5000/api/v1/user/${userInfo.id}`,
+        { totalExpenses: parseInt(totalExpense) - parseInt(expense) }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleDelete = async (expense) => {
+    const expenseId = expense.id;
+    const expenseAmount = expense.amount;
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/expenses/${expenseId}`
+        `http://localhost:5000/api/v1/expense/${expenseId}`
       );
 
       if (response.statusText === "OK") {
         await response.data;
+        updateTotalExpense(expenseAmount);
         fetchExpenses();
 
         if (expenses?.length === 1 && currentPage > 1) {
@@ -40,7 +67,6 @@ const ExpenseList = ({
       console.error("Error:", error);
     }
   };
-
   return (
     <Container
       maxWidth="md"
@@ -66,7 +92,7 @@ const ExpenseList = ({
               <TableCell>
                 <DeleteButton
                   id={expense.id}
-                  onClick={() => handleDelete(expense.id)}
+                  onClick={() => handleDelete(expense)}
                 />
               </TableCell>
             </TableRow>
